@@ -20,6 +20,7 @@ Bienvenue dans le repository de mon projet Docker Compose. Ce projet a pour obje
 
 - `build.sh` : Script permettant la construction des images Docker personnalisées.
 - `run.sh` : Script permettant le démarrage de l'infrastructure avec Docker Compose.
+- `docker-compose.yaml` : Fichier de configuration Docker Compose. 
 
 ## Prérequis
 
