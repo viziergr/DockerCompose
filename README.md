@@ -1,13 +1,14 @@
 # Docker Compose Project
 
-Bienvenue dans le repository de mon projet Docker Compose. Ce projet a pour objectif de partir d'un docker-compose permettant l'hébergement d'un DVWA (Damn Vulnerable Web Application) pour devenir autonome par rapport aux images imposées (alpine, mysql) en développant des Dockerfiles personnels qui sont exploités par le docker-compose.
+Bienvenue dans le repository de mon projet Docker Compose. Ce projet a pour objectif de partir d'un docker-compose permettant l'hébergement d'un DVWA (Damn Vulnerable Web Application) (ou autre) pour devenir autonome par rapport aux images imposées (alpine, mysql) en développant des Dockerfiles personnels qui sont exploités par le docker-compose.
 
 ## Objectifs
 
-- Héberger un DVWA à l'aide de Docker Compose.
+- Héberger un DVWA (ou autre application) à l'aide de Docker Compose.
 - Remplacer les images Docker imposées (alpine, mysql) par des Dockerfiles personnalisés.
 - Développer des Dockerfiles personnels pour chaque service.
 - Exploiter ces Dockerfiles via Docker Compose.
+- Respecter les principes des [12 Factor Apps](https://12factor.net/).
 
 ## Structure du repository
 
@@ -15,6 +16,8 @@ Bienvenue dans le repository de mon projet Docker Compose. Ce projet a pour obje
 - `Dockerfile-alpine` : Dockerfile personnalisé pour remplacer l'image alpine.
 - `Dockerfile-mysql` : Dockerfile personnalisé pour remplacer l'image mysql.
 - `dvwa/` : Répertoire contenant les fichiers nécessaires pour héberger DVWA.
+- `build.sh` : Script pour la construction des images Docker.
+- `run.sh` : Script pour le démarrage de Docker Compose (y compris toutes les options).
 
 ## Prérequis
 
@@ -23,18 +26,25 @@ Bienvenue dans le repository de mon projet Docker Compose. Ce projet a pour obje
 
 ## Utilisation
 
-1. Clonez ce repository :
+1. Décompressez le fichier .ZIP contenant le repository :
     ```sh
-    git clone https://github.com/votre-utilisateur/votre-repository.git
+    unzip votre-repository.zip
     ```
 2. Naviguez dans le répertoire du projet :
     ```sh
     cd votre-repository
     ```
-3. Lancez Docker Compose :
+3. Construisez les images Docker en exécutant le script `build.sh` :
     ```sh
-    docker-compose up
+    ./build.sh
     ```
+    **Explication :** Ce script construit les images Docker personnalisées à partir des Dockerfiles fournis. Chaque étape de la construction est commentée dans le script pour une meilleure compréhension.
+
+4. Démarrez Docker Compose en exécutant le script `run.sh` :
+    ```sh
+    ./run.sh
+    ```
+    **Explication :** Ce script démarre l'infrastructure définie dans `docker-compose.yml`. Il inclut toutes les options nécessaires pour une configuration optimale. Les commandes utilisées dans ce script sont commentées pour expliquer leur fonctionnement.
 
 ## Contribution
 
@@ -43,3 +53,19 @@ Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou un
 ## Licence
 
 Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+**Commentaire dans `build.sh` :**
+```sh
+#!/bin/bash
+
+# Construction de l'image personnalisée pour alpine
+echo "Construction de l'image alpine personnalisée..."
+docker build -t custom-alpine -f Dockerfile-alpine .
+
+# Construction de l'image personnalisée pour mysql
+echo "Construction de l'image mysql personnalisée..."
+docker build -t custom-mysql -f Dockerfile-mysql .
+
+echo "Toutes les images ont été construites avec succès."
