@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   web:
     build:
@@ -10,22 +8,22 @@ services:
     depends_on:
       - db
     environment:
-      DB_SERVER: ${DVWA_DB_SERVER}
-      DB_USERNAME: ${DVWA_DB_USERNAME}
-      DB_PASSWORD: ${DVWA_DB_PASSWORD}
-      DB_DATABASE: ${DVWA_DB_DATABASE}
-      
+      DB_SERVER: ${DVWA_DB_SERVER:-db}        # Utilise "db" par défaut si la variable n'est pas définie
+      DB_USERNAME: ${DVWA_DB_USERNAME:-dvwa}  # Utilise "dvwa" par défaut
+      DB_PASSWORD: ${DVWA_DB_PASSWORD:-p@ssw0rd} # Utilise "p@ssw0rd" par défaut
+      DB_DATABASE: ${DVWA_DB_DATABASE:-dvwa}  # Utilise "dvwa" par défaut
+
   db:
     build:
       context: .
       dockerfile: DockerfileLemeleVizier.bdd
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password} # Utilise "root_password" par défaut
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-dvwa}                   # Utilise "dvwa" par défaut
+      MYSQL_USER: ${MYSQL_USER:-dvwa}                           # Utilise "dvwa" par défaut
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-p@ssw0rd}               # Utilise "p@ssw0rd" par défaut
     volumes:
       - db_data:/var/lib/mysql
 
 volumes:
-  db_data:
+  db_data: {}  # Définir le volume db_data ici
