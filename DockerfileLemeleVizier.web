@@ -1,12 +1,5 @@
 FROM alpine:3.20
 
-# Variables d'environnement pour la configuration de DVWA
-ENV DVWA_DB_SERVER=172.30.0.3
-ENV DVWA_DB_USERNAME=dvwa
-ENV DVWA_DB_PASSWORD=p@ssw0rd
-ENV DVWA_DB_DATABASE=dvwa
-ENV DVWA_APP_DIR=/var/www/localhost/htdocs
-
 # Installation des dépendances
 RUN apk --update add --no-cache apache2 php82 php82-apache2 php82-pdo_mysql php82-mysqli php82-zip php82-json php82-session
 
