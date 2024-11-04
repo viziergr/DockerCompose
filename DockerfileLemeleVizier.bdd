@@ -1,0 +1,3 @@
+FROM yobasystems/alpine-mariadb
+
+VOLUME /var/lib/mysql

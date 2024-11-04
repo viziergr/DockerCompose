@@ -19,6 +19,7 @@ RUN cp /var/www/localhost/htdocs/dvwa/config/config.inc.php.dist /var/www/localh
 
 COPY DockerfileLemeleVizier.db /etc/apache2/conf.d/
 
+# Définir un volume pour le dossier htdocs
 VOLUME /var/www/localhost/htdocs
 
 EXPOSE 1234
