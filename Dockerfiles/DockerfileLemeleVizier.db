@@ -1,0 +1,9 @@
+Listen 1234
+<VirtualHost *:1234>
+    DocumentRoot "/var/www/localhost/htdocs"
+    DirectoryIndex index.php index.html
+    <Directory "/var/www/localhost/htdocs">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
