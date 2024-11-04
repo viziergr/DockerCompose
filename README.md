@@ -10,11 +10,6 @@ Bienvenue dans le repository de mon projet Docker Compose. Ce projet a pour obje
 - Exploiter ces Dockerfiles via Docker Compose.
 - Respecter les principes des [12 Factor Apps](https://12factor.net/).
 
-## Structure du repository
-
-- `/Dockerfiles/` : Répertoire contenant les Dockerfiles personnalisés pour chaque service.
-- `/Scripts/` : Répertoire contenant les scripts pour la construction et le démarrage de l'infrastructure.
-
 ## Dockerfiles
 
 - `DockerfileLemeleVizier.web` : Dockerfile permettant la création du conteneur de l'application web.
