@@ -1,26 +1,40 @@
 FROM alpine:3.20
 
+# Variables d'environnement pour la configuration de DVWA
+ENV DVWA_DB_SERVER=172.30.0.3
+ENV DVWA_DB_USERNAME=dvwa
+ENV DVWA_DB_PASSWORD=p@ssw0rd
+ENV DVWA_DB_DATABASE=dvwa
+ENV DVWA_APP_DIR=/var/www/localhost/htdocs
+
+# Installation des dépendances
 RUN apk --update add --no-cache apache2 php82 php82-apache2 php82-pdo_mysql php82-mysqli php82-zip php82-json php82-session
 
-RUN mkdir -p /var/www/localhost/htdocs && \
-    wget -O /var/www/localhost/htdocs/dvwa.zip https://github.com/digininja/DVWA/archive/refs/heads/master.zip && \
-    unzip /var/www/localhost/htdocs/dvwa.zip -d /var/www/localhost/htdocs/ && \
-    mkdir /var/www/localhost/htdocs/dvwa && \
-    mv /var/www/localhost/htdocs/DVWA-master/* /var/www/localhost/htdocs/dvwa && \
-    rm -rf /var/www/localhost/htdocs/DVWA-master /var/www/localhost/htdocs/dvwa.zip
+# Téléchargement et préparation de DVWA
+RUN mkdir -p $DVWA_APP_DIR && \
+    wget -O $DVWA_APP_DIR/dvwa.zip https://github.com/digininja/DVWA/archive/refs/heads/master.zip && \
+    unzip $DVWA_APP_DIR/dvwa.zip -d $DVWA_APP_DIR/ && \
+    mkdir $DVWA_APP_DIR/dvwa && \
+    mv $DVWA_APP_DIR/DVWA-master/* $DVWA_APP_DIR/dvwa && \
+    rm -rf $DVWA_APP_DIR/DVWA-master $DVWA_APP_DIR/dvwa.zip
 
-RUN cp /var/www/localhost/htdocs/dvwa/config/config.inc.php.dist /var/www/localhost/htdocs/dvwa/config/config.inc.php
+# Copie de la configuration de DVWA
+RUN cp $DVWA_APP_DIR/dvwa/config/config.inc.php.dist $DVWA_APP_DIR/dvwa/config/config.inc.php
 
-RUN cp /var/www/localhost/htdocs/dvwa/config/config.inc.php.dist /var/www/localhost/htdocs/dvwa/config/config.inc.php && \
-    sed -i "s/getenv('DB_SERVER') ?: '127.0.0.1'/getenv('DB_SERVER') ?: '172.30.0.3'/g" /var/www/localhost/htdocs/dvwa/config/config.inc.php && \
-    sed -i "s/$_dvwa['db_username'] = 'root'/$_dvwa['db_username'] = 'dvwa'/" /var/www/localhost/htdocs/dvwa/config/config.inc.php && \
-    sed -i "s/$_dvwa['db_password'] = ''/$_dvwa['db_password'] = 'p@ssw0rd'/" /var/www/localhost/htdocs/dvwa/config/config.inc.php && \
-    sed -i "s/$_dvwa['db_database'] = 'dvwa'/$_dvwa['db_database'] = 'dvwa'/" /var/www/localhost/htdocs/dvwa/config/config.inc.php
+# Modification du fichier de configuration de DVWA avec les variables d'environnement
+RUN sed -i "s/getenv('DB_SERVER') ?: '127.0.0.1'/getenv('DB_SERVER') ?: '$DVWA_DB_SERVER'/g" $DVWA_APP_DIR/dvwa/config/config.inc.php && \
+    sed -i "s/$_dvwa['db_username'] = 'root'/$_dvwa['db_username'] = '$DVWA_DB_USERNAME'/" $DVWA_APP_DIR/dvwa/config/config.inc.php && \
+    sed -i "s/$_dvwa['db_password'] = ''/$_dvwa['db_password'] = '$DVWA_DB_PASSWORD'/" $DVWA_APP_DIR/dvwa/config/config.inc.php && \
+    sed -i "s/$_dvwa['db_database'] = 'dvwa'/$_dvwa['db_database'] = '$DVWA_DB_DATABASE'/" $DVWA_APP_DIR/dvwa/config/config.inc.php
 
+# Copie du fichier de configuration Apache
 COPY DockerfileLemeleVizier.db /etc/apache2/conf.d/
 
-VOLUME /var/www/localhost/htdocs
+# Volume pour les fichiers de l'application
+VOLUME $DVWA_APP_DIR
 
+# Exposition du port
 EXPOSE 1234
 
+# Commande pour démarrer le serveur Apache
 CMD ["httpd", "-D", "FOREGROUND"]
