@@ -12,12 +12,19 @@ Bienvenue dans le repository de mon projet Docker Compose. Ce projet a pour obje
 
 ## Structure du repository
 
-- `docker-compose.yml` : Fichier de configuration principal pour Docker Compose.
-- `Dockerfile-alpine` : Dockerfile personnalisé pour remplacer l'image alpine.
-- `Dockerfile-mysql` : Dockerfile personnalisé pour remplacer l'image mysql.
-- `dvwa/` : Répertoire contenant les fichiers nécessaires pour héberger DVWA.
-- `build.sh` : Script pour la construction des images Docker.
-- `run.sh` : Script pour le démarrage de Docker Compose (y compris toutes les options).
+- `/Dockerfiles/` : Répertoire contenant les Dockerfiles personnalisés pour chaque service.
+- `/Scripts/` : Répertoire contenant les scripts pour la construction et le démarrage de l'infrastructure.
+
+## Dockerfiles
+
+- `DockerfileLemeleVizier.web` : Dockerfile permettant la création du conteneur de l'application web.
+- `DockerfileLemeleVizier.bdd` : Dockerfile permettant la création du conteneur de la BDD.
+- `DockerfileLemeleVizier.db` : Dockerfile contenant le fichier de configuration de la base de données.
+
+## Scripts
+
+- `build.sh` : Script permettant la construction des images Docker personnalisées.
+- `run.sh` : Script permettant le démarrage de l'infrastructure avec Docker Compose.
 
 ## Prérequis
 
